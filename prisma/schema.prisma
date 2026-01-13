@@ -9,6 +9,32 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model User{
+  id String @id @default(auto()) @db.ObjectId @map("_id") 
+  name String @unique
+  password String
+  authType authRole @default(USER)
+  onBoarding onBoarding
+}
+
+model onBoarding{
+  id String @id @default(auto()) @db.ObjectId @map("_id") 
+  name String
+  email String @unique
+  address String
+  phone String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId @map("userId")
+  completed Boolean @default(false)
+}
+
+
+enum authRole{
+  USER
+  ADMIN
+}
+
