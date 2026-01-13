@@ -18,23 +18,86 @@ model User{
   name String @unique
   password String
   authType authRole @default(USER)
-  onBoarding onBoarding
+  onBoarding onBoarding?
+  products Products[]
+  cart Cart[]
+  orders Orders[]
 }
 
-model onBoarding{
+model onBoarding {
   id String @id @default(auto()) @db.ObjectId @map("_id") 
   name String
   email String @unique
   address String
   phone String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId @map("userId")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId @unique @map("userId")
   completed Boolean @default(false)
 }
+
+model Products{
+  id String @id @default(auto()) @db.ObjectId @map("_id") 
+  product_name String
+  product_about String
+  product_price Float
+  product_image String
+  product_category productCategory @default(HOME)
+
+  user User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId @unique @map("userId")
+  
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @default(now()) @map("updatedAt")
+
+  cart Cart[]
+  orders Orders[]
+}
+
+model Cart { 
+  id String @id @default(auto()) @db.ObjectId @map("_id") 
+  user User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId @unique @map("userId")
+
+  products Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String @db.ObjectId @unique @map("productId")
+
+  quantity Int @default(1)
+  price Float @default(0)
+  addedAt DateTime @default(now()) @map("addedAt")
+  updatedAt DateTime @default(now()) @map("updatedAt")
+}
+
+model Orders{
+  id String @id @default(auto()) @db.ObjectId @map("_id") 
+  user User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId @unique @map("userId")
+
+  products Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String @db.ObjectId @unique @map("productId")
+
+  quantity Int @default(1)
+  totalPrice Float @default(0)
+  orderDate DateTime @default(now()) @map("orderDate")
+  status String @default("PENDING") @map("status")
+}
+
 
 
 enum authRole{
   USER
   ADMIN
+}
+
+enum productCategory{
+  ELECTRONICS
+  FURNITURE
+  HOME
+  CLOTHING
+  SPORTS
+  TOYS
+  BOOKS
+  FASHION
+  GROCERY
+  HOME_APPLIANCES
 }
 
