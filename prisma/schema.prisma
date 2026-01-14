@@ -31,7 +31,7 @@ model onBoarding {
   address String
   phone String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId @unique @map("userId")
+  userId String @db.ObjectId @unique
   completed Boolean @default(false)
 }
 
@@ -44,7 +44,7 @@ model Products{
   product_category productCategory @default(HOME)
 
   user User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId @unique @map("userId")
+  userId String @db.ObjectId 
   
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @default(now()) @map("updatedAt")
@@ -56,13 +56,13 @@ model Products{
 model Cart { 
   id String @id @default(auto()) @db.ObjectId @map("_id") 
   user User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId @unique @map("userId")
+  userId String @db.ObjectId
 
   products Products @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String @db.ObjectId @unique @map("productId")
+  productId String @db.ObjectId
 
   quantity Int @default(1)
-  price Float @default(0)
+  price Float
   addedAt DateTime @default(now()) @map("addedAt")
   updatedAt DateTime @default(now()) @map("updatedAt")
 }
@@ -70,17 +70,16 @@ model Cart {
 model Orders{
   id String @id @default(auto()) @db.ObjectId @map("_id") 
   user User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId @unique @map("userId")
+  userId String @db.ObjectId 
 
   products Products @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String @db.ObjectId @unique @map("productId")
+  productId String @db.ObjectId 
 
   quantity Int @default(1)
-  totalPrice Float @default(0)
+  totalPrice Float
   orderDate DateTime @default(now()) @map("orderDate")
   status String @default("PENDING") @map("status")
 }
-
 
 
 enum authRole{
