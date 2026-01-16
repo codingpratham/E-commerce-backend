@@ -8,7 +8,6 @@ export const RegisterSchema = object({
     name:string().min(3).max(30),
   password:string().min(6),
   authType:nativeEnum(authRole).default(authRole.USER),
-  isBoarded:boolean().default(false),
 })
 
 export type RegisterType = z.infer<typeof RegisterSchema>;
@@ -30,16 +29,16 @@ export const onBoardingSchema = object({
 export type onBoardingType = z.infer<typeof onBoardingSchema>;
 
 enum categoryEnum {
-  ELECTRONICS,
-  FURNITURE,
-  HOME,
-  CLOTHING,
-  SPORTS,
-  TOYS,
-  BOOKS,
-  FASHION,
-  GROCERY,
-  HOME_APPLIANCES,
+  ELECTRONICS = "ELECTRONICS",
+  FURNITURE = "FURNITURE",
+  HOME = "HOME",
+  CLOTHING = "CLOTHING",
+  SPORTS = "SPORTS",
+  TOYS = "TOYS",
+  BOOKS = "BOOKS",
+  FASHION = "FASHION",
+  GROCERY = "GROCERY",
+  HOME_APPLIANCES = "HOME_APPLIANCES",
 }
 
 export const productSchema = object ({
@@ -47,6 +46,7 @@ export const productSchema = object ({
   about:string().min(10).max(500),
   price:float32(),
   category:nativeEnum(categoryEnum).default(categoryEnum.HOME),
+  photoUrl:string(),
 })
 
 export type productType = z.infer<typeof productSchema>;
