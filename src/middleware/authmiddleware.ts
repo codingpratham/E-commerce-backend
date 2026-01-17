@@ -1,26 +1,32 @@
 import { NextFunction, Request, Response } from "express";
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
-export const authMiddleWare  = async  ( req : Request , res : Response , next : NextFunction) =>{
-    const token = req.cookies.token;
+declare global {
+  namespace Express {
+    interface Request {
+      userId?: string;
+      auth?: string;
+    }
+  }
+}
 
-    if(!token){
-        res.status(401).json({error: 'Unauthorized'});
+export const authMiddleWare = async (req: Request, res: Response, next: NextFunction) => {
+    const token = req.cookies?.token;
+
+    if (!token) {
+        res.status(401).json({ error: 'token Unauthorized' });
         return;
     }
 
     try {
-        const decoded = jwt.verify(token , process.env.JWT_SECRET as string) as {id:string , auth:string}
-        const payload = {id:decoded.id , auth:decoded.auth}
-
-        req.userId = payload.id
-        req.auth = payload.auth
-        next(); 
-    } catch (error:Error | any ) {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { userId: string, auth: string };
+        
+        req.userId = decoded.userId;
+        req.auth = decoded.auth;
+        next();
+    } catch (error) {
         console.log(error);
-        res.status(500).json({error: 'Unauthorized'});
+        res.status(401).json({ error: 'auth middle ware fail Unauthorized' });
         return;
-    
     }
-
 }

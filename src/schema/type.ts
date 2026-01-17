@@ -44,7 +44,7 @@ enum categoryEnum {
 export const productSchema = object ({
   name:string().min(3).max(50),
   about:string().min(10).max(500),
-  price:float32(),
+  price:string(),
   category:nativeEnum(categoryEnum).default(categoryEnum.HOME),
   photoUrl:string(),
 })

@@ -4,6 +4,7 @@ import prisma from "../utils/prisma";
 
 export const onboarding  = async (req: Request, res: Response): Promise<void> => {
     const userId = req.userId;
+    
     if(!userId){
         res.status(401).json({error: 'Unauthorized'});
         return;
