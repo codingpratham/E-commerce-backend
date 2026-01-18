@@ -51,7 +51,6 @@ model Products{
   updatedAt DateTime @default(now()) @map("updatedAt")
 
   cart Cart[]
-  orders Orders[]
 }
 
 model Cart { 
@@ -62,10 +61,11 @@ model Cart {
   products Products @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String @db.ObjectId
 
-  quantity Int @default(1)
-  price Float
+  quantity String @default("1")
+  price String 
   addedAt DateTime @default(now()) @map("addedAt")
   updatedAt DateTime @default(now()) @map("updatedAt")
+  orders Orders[]
 }
 
 model Orders{
@@ -73,11 +73,11 @@ model Orders{
   user User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @db.ObjectId 
 
-  products Products @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String @db.ObjectId 
+  cart Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cartId String @db.ObjectId
 
-  quantity Int @default(1)
-  totalPrice Float
+  totalPrice String 
+  
   orderDate DateTime @default(now()) @map("orderDate")
   status String @default("PENDING") @map("status")
 }
