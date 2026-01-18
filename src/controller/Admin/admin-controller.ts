@@ -117,7 +117,7 @@ export const updateOrder = async (req: Request, res: Response): Promise<void> =>
     try {   
         const order = await prisma.orders.update({
             where: {
-                id: orderId
+                id: orderId as any
             },
             data: {
                 status: req.body.status
@@ -144,7 +144,7 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
     try {
         const product = await prisma.products.delete({
             where: {
-                id: productId
+                id: productId as any
             }
         });
         res.status(200).json(product);    
