@@ -26,7 +26,7 @@ export const onBoardCheck = async (
        return;
     }
 
-    if (!user.isBoarded) {
+    if (!user.isBoarded === false) {
       res.status(403).json({ error: "onBoardCheck User onboarding incomplete" });
       return;
     }
