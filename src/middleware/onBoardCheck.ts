@@ -6,8 +6,7 @@ export const onBoardCheck = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-    
-  // Expecting authMiddleWare to have set req.userId
+
   const userId = req.userId;
 
   if (!userId) {
@@ -26,12 +25,11 @@ export const onBoardCheck = async (
        return;
     }
 
-    if (!user.isBoarded === false) {
-      res.status(403).json({ error: "onBoardCheck User onboarding incomplete" });
+    if (user.isBoarded === false) {
+      next();
       return;
     }
-
-    next();
+    next()
   } catch (error) {
     res.status(500).json({ error: "onBoardCheck Internal server error" });
   }
