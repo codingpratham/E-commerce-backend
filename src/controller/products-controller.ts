@@ -14,7 +14,7 @@ export const allProducts = async(req:Request , res:Response) =>{
 
 export const getProductsByCategory =async(req:Request , res:Response)=>{
     try {
-        const {category} = req.params
+        const category = req.body
 
         if(!category){
             return res.status(400).json({message:"Category is required"})
@@ -38,7 +38,7 @@ export const getProductsByCategory =async(req:Request , res:Response)=>{
 
 export const filterProductsByPrice = async(req:Request , res:Response) =>{
     try {
-        const {minPrice, maxPrice} = req.query
+        const {minPrice, maxPrice} = req.body
         if(!minPrice || !maxPrice){
             return res.status(400).json({message:"minPrice and maxPrice are required"})
         }

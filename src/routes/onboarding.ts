@@ -5,7 +5,6 @@ import { authMiddleWare } from "../middleware/authmiddleware";
 const router = Router();
 
 router.use(authMiddleWare)
-router.use(onBoardCheck)
 
 
 router.post('/onboard',onboarding)
